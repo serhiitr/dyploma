@@ -102,7 +102,7 @@ stoks = (pd.unique(data_final.Names)).tolist()
 st.subheader("Оберіть заклад громадського харчування")
 selected_stocks = st.selectbox(" ", stoks)
 
-st.subheader("Кількість замовлень закладу протягом доби")
+st.subheader("Розташування закладу")
 datetim = data_final[data_final.Names == selected_stocks]
 
 map_cr_lat = datetim.iloc[0,8]
@@ -111,7 +111,7 @@ map_data = pd.DataFrame({'lat': [map_cr_lat], 'lon': [map_cr_long]})
 
 st.map(map_data)
 
-
+st.subheader("Кількість замовлень закладу протягом доби")
 table2 = datetim.groupby('order_created_hour').store_id.count()
 delifr1 = datetim[datetim['order_created_hour'].isin([8, 9, 10, 11, 12])]
 delifr2 = datetim[datetim['order_created_hour'].isin([13, 14, 15, 16, 17, 18])]
@@ -137,7 +137,7 @@ res.order_date = pd.to_datetime(res.order_date).dt.strftime("%Y-%m-%d")
 #st.write(res)
 #print(res.info())
 
-period = 97 + 30
+period = 32
 
 #Forecast
 
@@ -155,7 +155,7 @@ st.write(forecast.tail())
 fig1 = plot_plotly(m, forecast)
 st.plotly_chart(fig1)
 
-datefoepred = st.date_input("Оберіть дату, аби дізнатись кількість кур'єрів")
+datefoepred = st.date_input("Оберіть дату, аби дізнатись кількість кур'єрів", date(2021, 4, 10), max_value=date(2021, 5, 10))
 
 finalldate = datefoepred.strftime("%Y-%m-%d")
 fdate = finalldate + "T00:00:00"
